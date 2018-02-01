@@ -1,6 +1,6 @@
 # Data handler module
 
-import urllib
+import urllib.request
 import zipfile
 import os
 
@@ -29,8 +29,8 @@ def download_data():
         # download zip
         url = 'https://archive.ics.uci.edu/ml/machine-learning-databases/'\
             +'00341/HAPT%20Data%20Set.zip'
-        print 'Downloading data (79.6 MB)...'
-        filehandle, _ = urllib.urlretrieve(url)
+        print('Downloading data (79.6 MB)...')
+        filehandle, _ = urllib.request.urlretrieve(url)
         
         # option for manually downloaded archive
         # filehandle = open('data/HAPT Data Set.zip','rb')
@@ -38,9 +38,9 @@ def download_data():
         # extract relevant files
         for fpath in file_list:
             extract_file(filehandle,fpath)
-        print 'Done.'
+        print('Done.')
     else:
-        print 'Data checked.'
+        print('Data checked.')
 
 # extract a specific file from the zip
 def extract_file(filehandle,dataname):
@@ -56,17 +56,17 @@ def read_data():
     download_data()
 
     # read data
-    X_train = pd.read_csv('data/Train/X_train.txt',sep=r"\s",header=None)
-    y_train = pd.read_csv('data/Train/y_train.txt',sep=r"\s",header=None)
-    X_test = pd.read_csv('data/Test/X_test.txt',sep=r"\s",header=None)
-    y_test = pd.read_csv('data/Test/y_test.txt',sep=r"\s",header=None)
+    X_train = pd.read_csv('data/Train/X_train.txt',delim_whitespace=True,header=None)
+    y_train = pd.read_csv('data/Train/y_train.txt',delim_whitespace=True,header=None)
+    X_test = pd.read_csv('data/Test/X_test.txt',delim_whitespace=True,header=None)
+    y_test = pd.read_csv('data/Test/y_test.txt',delim_whitespace=True,header=None)
 
     return X_train, X_test, y_train, y_test
 
 # read activity labels
 def read_activities():
     classes = pd.read_csv('data/activity_labels.txt',
-        sep=r"\s", # use blank spaces as separator
+        delim_whitespace=True, # use blank spaces as separator
         header=None,
         names=('ID','activity')) # use instead these names as header
 
